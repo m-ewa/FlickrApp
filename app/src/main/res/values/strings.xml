@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">FlickrApp</string>
+
+    <string name="error_no_link_available">No link available to open in browser</string>
+    <string name="error_on_items_fetch_title">Oops! Something went wrong…</string>
+    <string name="error_on_items_fetch_common_message">Unknown error occurred :(</string>
+    <string name="error_on_items_fetch_retry">Retry</string>
+    <string name="error_on_items_fetch_exit">Exit</string>
+</resources>
