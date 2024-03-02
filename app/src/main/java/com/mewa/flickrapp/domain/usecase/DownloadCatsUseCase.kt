@@ -9,7 +9,7 @@ class DownloadCatsUseCase @Inject constructor(
     private val catsRepository: CatsRepository
 ) {
 
-    operator fun invoke(): Flow<Result<List<Cat>>> {
+    suspend operator fun invoke(): Flow<Result<List<Cat>>> {
         return catsRepository.getCats()
     }
 }

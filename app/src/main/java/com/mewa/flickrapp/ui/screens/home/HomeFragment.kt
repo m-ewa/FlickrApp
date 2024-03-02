@@ -95,10 +95,7 @@ class HomeFragment : Fragment() {
 
     private fun onSuccess(homeUiState: HomeUiState.Success) {
         binding.progressBar.visibility = View.GONE
-        catAdapter.apply {
-            submitList(homeUiState.cats)
-            notifyDataSetChanged()
-        }
+        catAdapter.submitList(homeUiState.cats)
     }
 
     private fun onFailure(homeUiState: HomeUiState.Failure) {

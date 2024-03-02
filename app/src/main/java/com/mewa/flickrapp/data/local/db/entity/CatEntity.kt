@@ -2,12 +2,12 @@ package com.mewa.flickrapp.data.local.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.Date
 
 @Entity(tableName = "cats")
 data class CatEntity(
-    @PrimaryKey val id: Int,
-    val imageUrl: String,
+    @PrimaryKey val imageUrl: String,
     val description: String,
     val link: String,
-    val published: String
+    val published: Date,
 )

@@ -3,31 +3,24 @@ package com.mewa.flickrapp.data.mapper
 import com.mewa.flickrapp.data.local.db.entity.CatEntity
 import com.mewa.flickrapp.data.remote.dto.CatsDto
 import com.mewa.flickrapp.domain.model.Cat
+import com.mewa.flickrapp.extensions.parseDate
+import com.mewa.flickrapp.extensions.removeHtmlTagsAndReplaceLastColon
+import java.util.Date
 
-fun CatsDto.CatDto.toEntity(index: Int): CatEntity {
+fun CatsDto.CatDto.toEntity(): CatEntity {
     return CatEntity(
-        id = index + 1,
         imageUrl = media?.imageUrl ?: "",
         description = descriptionHtml?.removeHtmlTagsAndReplaceLastColon() ?: "",
         link = link ?: "",
-        published = publishedString ?: ""
+        published = publishedString?.parseDate() ?: Date(0)
     )
 }
 
 fun CatEntity.toDomain(): Cat {
     return Cat(
-        id = id,
         imageUrl = imageUrl,
         description = description,
         link = link,
+        published = published,
     )
-}
-
-private fun String.removeHtmlTagsAndReplaceLastColon(): String {
-    val removeHtmlTagsPattern = "<.*?>"
-    var result = this.replace(Regex(removeHtmlTagsPattern), "").trim()
-    if (result.endsWith(":")) {
-        result = result.dropLast(1) + "."
-    }
-    return result
 }

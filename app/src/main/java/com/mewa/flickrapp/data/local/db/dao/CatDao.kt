@@ -18,4 +18,7 @@ interface CatDao {
 
     @Query("DELETE FROM cats")
     suspend fun deleteAllCats()
+
+    @Query("SELECT COUNT(*) FROM cats")
+    suspend fun getNumberOfCats(): Int
 }

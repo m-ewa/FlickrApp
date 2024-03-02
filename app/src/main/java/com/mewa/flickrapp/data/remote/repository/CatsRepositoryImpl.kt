@@ -7,31 +7,30 @@ import com.mewa.flickrapp.data.mapper.toEntity
 import com.mewa.flickrapp.data.remote.FlickrApi
 import com.mewa.flickrapp.data.remote.dto.CatsDto
 import com.mewa.flickrapp.domain.repository.CatsRepository
+import com.mewa.flickrapp.domain.repository.NetworkRepository
+import com.mewa.flickrapp.extensions.parseDate
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class CatsRepositoryImpl @Inject constructor(
     private val flickrApi: FlickrApi,
-    private val database: CatDatabase
+    private val database: CatDatabase,
+    private val networkRepository: NetworkRepository
 ) : CatsRepository {
 
     private val catDao = database.catDao()
-
-    override fun getCats() = networkBoundResource(
+    override suspend fun getCats() = networkBoundResource(
         query = {
             catDao.getAllCats().map { catsEntity ->
-                catsEntity.map { catEntity ->
-                    catEntity.toDomain()
-                }
+                catsEntity
+                    .sortedByDescending { it.published }
+                    .map { catEntity -> catEntity.toDomain() }
             }
         },
         fetch = {
@@ -45,48 +44,46 @@ class CatsRepositoryImpl @Inject constructor(
                     saveCats(filteredCats)
                 }
             }
-        },
-        shouldFetch = { it.isEmpty() }
+        }
     )
 
     private inline fun <ResultType, RequestType> networkBoundResource(
         crossinline query: () -> Flow<ResultType>,
         crossinline fetch: suspend () -> RequestType,
-        crossinline saveFetchResult: suspend (RequestType) -> Unit,
-        crossinline shouldFetch: (ResultType) -> Boolean
+        crossinline saveFetchResult: suspend (RequestType) -> Unit
     ) = flow {
-        val data = query().first()
 
-        val flow = if (shouldFetch(data)) {
-            try {
-                saveFetchResult(fetch())
-                query().map { Result.success(it) }
-            } catch (throwable: Throwable) {
-                query().map { Result.failure(throwable) }
-            }
-        } else {
-            query().map { Result.success(it) }
+        val isDatabaseEmpty = catDao.getNumberOfCats() == 0
+        val isNetworkAvailable = networkRepository.isNetworkAvailable()
+
+        if (!isDatabaseEmpty) {
+            val data = query().first()
+            emit(Result.success(data))
         }
 
-        emitAll(flow)
+        if (isNetworkAvailable) {
+            try {
+                val fetchedData = fetch()
+                saveFetchResult(fetchedData)
+                emitAll(query().map { Result.success(it) })
+            } catch (throwable: Throwable) {
+                emit(Result.failure(throwable))
+            }
+        } else if (isDatabaseEmpty) {
+            emit(Result.failure(Throwable("No internet connection")))
+        }
     }
 
     private suspend fun saveCats(cats: List<CatsDto.CatDto>) {
         val sortedCatsDto = cats.sortedByDescending {
             it.publishedString?.let { published ->
-                parseDateString(published)
+                published.parseDate()
             }
         }
         catDao.insertCats(
-            sortedCatsDto.mapIndexed { id, catDto ->
-                catDto.toEntity(id)
+            sortedCatsDto.map { catDto ->
+                catDto.toEntity()
             }
         )
-    }
-
-    private fun parseDateString(dateString: String): Date? {
-        val pattern = "yyyy-MM-dd'T'HH:mm:ss"
-        val format = SimpleDateFormat(pattern, Locale.getDefault())
-        return format.parse(dateString)
     }
 }
