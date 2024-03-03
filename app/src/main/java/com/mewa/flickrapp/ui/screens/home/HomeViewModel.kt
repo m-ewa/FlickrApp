@@ -2,7 +2,7 @@ package com.mewa.flickrapp.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mewa.flickrapp.domain.usecase.DownloadCatsUseCase
+import com.mewa.domain.usecase.DownloadCatsUseCase
 import com.mewa.flickrapp.ui.mapper.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

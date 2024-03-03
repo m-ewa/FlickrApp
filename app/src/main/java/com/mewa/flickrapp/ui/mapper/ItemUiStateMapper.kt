@@ -1,6 +1,6 @@
 package com.mewa.flickrapp.ui.mapper
 
-import com.mewa.flickrapp.domain.model.Cat
+import com.mewa.domain.model.Cat
 import com.mewa.flickrapp.ui.item.ItemUiState
 
 fun Cat.toUiState(): ItemUiState {
