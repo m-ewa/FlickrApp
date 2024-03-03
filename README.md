@@ -28,6 +28,8 @@ This includes a unique feature that adapts the display of the main screen based 
 On mobile phones, the main screen of the application is designed for a compact and efficient display. The images are arranged in a single column, allowing users to scroll vertically through the content.
 For tablet users, I have enhanced the display to take advantage of the larger screen size. The main screen on tablets presents images in a three-column layout. 
 
+<img src="https://github.com/m-ewa/FlickrApp/blob/master/screenshots/tablet.webp">
+
 ### 3. Dark Mode
 
 The application supports both light and dark themes. Users can switch between these modes according to their preference. 
