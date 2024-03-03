@@ -20,7 +20,7 @@ The main components of this architecture in the application are:
 On clicking an image, the application opens the image in an external browser, providing a full-screen view of the adorable cat image. 
 This feature enhances the user experience by allowing users to view images in greater detail.
 
-![External Browser Opening GIF](https://github.com/m-ewa/FlickrApp/blob/master/screenshots/openbrowser.gif)
+<img src="https://github.com/m-ewa/FlickrApp/blob/master/screenshots/openbrowser.gif" width="500" height="600">
 
 ### 2. Dark Mode
 
