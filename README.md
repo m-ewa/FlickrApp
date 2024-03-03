@@ -1,7 +1,6 @@
 # Flickr Cat App
 
 This is a Kotlin-based Android application that fetches and displays cat images from Flickr's public feed. 
-The application uses the Flickr API, Room for local data persistence, and follows the repository pattern for data management. 
 The application fetches data from the API and stores it in a local database, making it available even when the network is not accessible.
 
 ## Architecture
@@ -20,14 +19,21 @@ The main components of this architecture in the application are:
 On clicking an image, the application opens the image in an external browser, providing a full-screen view of the adorable cat image. 
 This feature enhances the user experience by allowing users to view images in greater detail.
 
-<img src="https://github.com/m-ewa/FlickrApp/blob/master/screenshots/openbrowser.gif" width="500" height="600">
+<img src="https://github.com/m-ewa/FlickrApp/blob/master/screenshots/openbrowser.gif" width="300" height="650">
 
-### 2. Dark Mode
+### 2. Adaptive Display Feature
+
+The application is designed with a responsive layout to provide an optimal user experience across different device types. 
+This includes a unique feature that adapts the display of the main screen based on the device being used.
+On mobile phones, the main screen of the application is designed for a compact and efficient display. The images are arranged in a single column, allowing users to scroll vertically through the content.
+For tablet users, I have enhanced the display to take advantage of the larger screen size. The main screen on tablets presents images in a three-column layout. 
+
+### 3. Dark Mode
 
 The application supports both light and dark themes. Users can switch between these modes according to their preference. 
 The application automatically adjusts the color scheme to provide a seamless user experience.
 
-![Dark Mode GIF](https://github.com/m-ewa/FlickrApp/blob/master/screenshots/daynight.gif)
+<img src="https://github.com/m-ewa/FlickrApp/blob/master/screenshots/daynight.gif" width="300" height="650">
 
 ## Libraries Used
 
