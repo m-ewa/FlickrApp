@@ -12,6 +12,23 @@ The main components of this architecture in the application are:
 - **View**: The views are defined in XML files. The main view varies for phones and tablets, providing an optimized user experience for different screen sizes.
 - **ViewModel**: The ViewModel acts as a bridge between the Model and the View. It exposes the data to the View and handles user interactions.
 
+## Project Structure
+
+The project is structured into multiple modules, each with a specific responsibility, adhering to the principles of Clean Architecture and SOLID principles. Here's a brief overview of the modules:  
+
+- **app**: This is the main module of the application. It contains the UI layer of the application, including activities, fragments, and view models. It depends on the domain and data modules.  
+- **data**: This module is responsible for data management. It includes the implementation of the data sources (both local and remote) and the repository. It depends on the domain module.  
+- **domain**: This module contains the business logic of the application. It defines the use cases and the repository interfaces.  
+
+The separation of concerns is evident in the structure of these modules. Each module has a specific role and does not interfere with the responsibilities of the other modules. This structure adheres to the Single Responsibility Principle, one of the SOLID principles.  
+The Open/Closed Principle is also respected. Each module is open for extension (we can add new features or modify existing ones without affecting other modules) but closed for modification (changes in one module do not require changes in other modules).  
+The Liskov Substitution Principle is maintained as there are no subclasses altering the behavior of their parent classes.  
+The Interface Segregation Principle is followed as the modules do not depend on interfaces they do not use. Each module communicates with others through minimal interfaces.  
+The Dependency Inversion Principle is respected as high-level modules do not depend on low-level modules. Both depend on abstractions. For example, the app module does not depend directly on the data module. Instead, both depend on the abstractions defined in the domain module.  
+In terms of Clean Architecture, the domain module represents the innermost circle (Entities), the data module represents the next circle (Use Cases), and the app module represents the outer circles (Interface Adapters, and Frameworks and Drivers). The dependency rule of Clean Architecture is maintained as inner circles do not depend on outer circles.  
+
+This modular structure makes the code more maintainable, scalable, and testable. It also improves the build speed as Gradle can compile independent modules in parallel.
+
 ## Features
 
 ### 1. External Browser Opening
