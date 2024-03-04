@@ -1,33 +1,21 @@
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
-    id("kotlin-platform-android")
-    id("dagger.hilt.android.plugin")
-    id("com.google.dagger.hilt.android")
 }
 
 @Suppress("UnstableApiUsage")
 android {
-    namespace = "com.mewa.flickrapp"
+    namespace = "com.mewa.domain"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.mewa.flickrapp"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        multiDexEnabled = true
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        consumerProguardFiles("consumer-rules.pro")
     }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -37,9 +25,6 @@ android {
             )
         }
     }
-    buildFeatures {
-        viewBinding = true
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -47,25 +32,13 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    tasks.withType<Test> {
-        useJUnitPlatform()
-    }
-}
-
-kapt {
-    correctErrorTypes = true
 }
 
 dependencies {
-    moduleDomain()
-    moduleData()
-
-    androidX()
-    ui()
     daggerHilt()
-    navigation()
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
 
     testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5",)
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
